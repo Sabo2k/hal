@@ -14,7 +14,7 @@ public class Instruction
         this.i_operand = 0;
     }
 
-    public void determine()
+    public void determineInstruction()
     {
         switch (this.instructionname)
         {

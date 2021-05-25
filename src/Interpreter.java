@@ -27,17 +27,17 @@ public class Interpreter
     public int pc;
     
     /**
-     * 
+     * contains all the registers of HAL where stuff can be stored
      */
     public double[] registers;
     
     /**
-     * 
+     * contains all the Instructions HAL needs to execute
      */
     public ArrayList<Instruction> instructions;
     
     /**
-     * 
+     * Input and Output Unit
      */
     public double[] IO;
     
@@ -47,7 +47,7 @@ public class Interpreter
     public boolean status;
     
     /**
-     * 
+     * standard constructor sets everything to default value
      */
     public Interpreter()
     {
@@ -59,7 +59,8 @@ public class Interpreter
     }
 
     /**
-     * 
+     * reads the file containing all the instructions for HAL
+     * and converts them to Instruction objects. 
      */
     void readFile(String f)
     {

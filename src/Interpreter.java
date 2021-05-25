@@ -2,22 +2,54 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
 
+/**
+ * The Interpreter is the actual processor of the instrucitons  
+ */
 public class Interpreter
 {
-    // Colors:
+    /**
+     * colors for the output
+     */
     public static final String RESET = "\u001B[0m";
     public static final String GREEN = "\u001B[32m";
     public static final String YELLOW = "\u001B[33m";
     public static final String CYAN = "\u001B[36m";
 
-    public double acc; // accumulator
-    public int pc; // program Counter
-    public double[] registers; // register table
+    /**
+     * the accumulator stores results from operations such as "ADDNUM" etc.
+     */
+    public double acc;
+    
+    /**
+     * the program counter is like a "pointer" to the instruction
+     * it actually stores the linenumber of the Instruction
+     */
+    public int pc;
+    
+    /**
+     * 
+     */
+    public double[] registers;
+    
+    /**
+     * 
+     */
     public ArrayList<Instruction> instructions;
-    public double[] IO; // input/output unit
+    
+    /**
+     * 
+     */
+    public double[] IO;
+    
+    /**
+     * 
+     */
     public boolean status;
-
-    public Interpreter() // Konstruktor
+    
+    /**
+     * 
+     */
+    public Interpreter()
     {
         this.acc = 0;
         this.pc = 0;
@@ -26,7 +58,10 @@ public class Interpreter
         this.IO = new double[2];
     }
 
-    void readFile(String f) // read the instruction file
+    /**
+     * 
+     */
+    void readFile(String f)
     {
         try
         {
@@ -61,7 +96,7 @@ public class Interpreter
                     operation.f_operand = Double.parseDouble(s.next()); // save operator as double
                 }
                 operation.determine();
-                this.instructions.add(operation); // save complete instruktion
+                this.instructions.add(operation); // save complete instruction
                 if(!s.hasNextLine())
                 {
                     break;
@@ -77,6 +112,9 @@ public class Interpreter
         }
     }
 
+    /**
+     * prints all information about the Interpreter
+     */
     public void print() // print all information about the Interpreter
     {
         for(int i = 0; i < this.registers.length; i++)
@@ -89,13 +127,19 @@ public class Interpreter
         System.out.println("IO 1: " + this.IO[1]);
         System.out.println(" \n\n");
     }
-
-    public Instruction fetchInstr() // Where ever the pc is, get the instruction
+    
+    /**
+     * whereever the pc is, get the instruction
+     */
+    public Instruction fetchInstr() 
     {
         return this.instructions.get(this.pc);
     }
 
-    public void build() // executes all instructions
+    /**
+     *  executes all instructions
+     */
+    public void build()
     {
         while(this.status != true)
         {
@@ -104,6 +148,9 @@ public class Interpreter
         this.print();
     }
 
+    /**
+     * debug mode similar to that of an IDE
+     */
     public void debug()
     {
         while(this.status != true)
@@ -118,16 +165,19 @@ public class Interpreter
         }
     }
 
-    public void execInstr(Instruction instr) // executes one instruction
+    /**
+     * executes one single instruction
+     */
+    public void execInstr(Instruction instr) 
     {
         this.pc++;
         if(instr.i_operand != 0)
         {
-            System.out.println(YELLOW + "CURRENT INSTRUCTION: " + instr.instructionname + " " + instr.i_operand + RESET); // Gibt aktuelle Instruktion aus
+            System.out.println(YELLOW + "CURRENT INSTRUCTION: " + instr.instructionname + " " + instr.i_operand + RESET); // print current instruction with int
         }
         else
         {
-            System.out.println(YELLOW + "CURRENT INSTRUCTION: " + instr.instructionname + " " + instr.f_operand + RESET); // Gibt aktuelle Instruktion aus
+            System.out.println(YELLOW + "CURRENT INSTRUCTION: " + instr.instructionname + " " + instr.f_operand + RESET); //  print current instruction with float 
         }
 
         switch(instr.instructionname) // instruction set

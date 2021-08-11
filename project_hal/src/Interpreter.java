@@ -163,6 +163,10 @@ public class Interpreter
                 this.execInstr(this.fetchInstr()); // execute instruction
                 this.print(); // print all information
             }
+            else
+            {
+                System.out.println("\nInvalid input. Press s to step!\n");
+            }
         }
     }
 

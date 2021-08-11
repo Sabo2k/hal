@@ -96,7 +96,7 @@ public class Interpreter
                 {
                     operation.f_operand = Double.parseDouble(s.next()); // save operator as double
                 }
-                operation.determine();
+                operation.determineInstruction();
                 this.instructions.add(operation); // save complete instruction
                 if(!s.hasNextLine())
                 {

@@ -11,6 +11,7 @@ public class Interpreter
      * colors for the output
      */
     public static final String RESET = "\u001B[0m";
+    public static final String RED = "\u001B[31m";
     public static final String GREEN = "\u001B[32m";
     public static final String YELLOW = "\u001B[33m";
     public static final String CYAN = "\u001B[36m";
@@ -165,7 +166,7 @@ public class Interpreter
             }
             else
             {
-                System.out.println("\nInvalid input. Press s to step!\n");
+                System.out.println(RED + "\nInvalid input. Press s to step!\n" + RESET);
             }
         }
     }

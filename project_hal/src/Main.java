@@ -6,6 +6,7 @@ public class Main
      * colors:
      */
     public static final String RESET = "\u001B[0m";
+    public static final String RED = "\u001B[31m";
     public static final String YELLOW = "\u001B[33m";
 
     public static void printMenu()
@@ -20,7 +21,7 @@ public class Main
     {
         final long start = System.currentTimeMillis(); // start counting time
         Interpreter interpreter = new Interpreter();
-        interpreter.readFile("add.txt");
+        interpreter.readFile("performancetest.txt");
         printMenu();
         Scanner scanner = new Scanner(System.in);
         String userinput = scanner.next(); // read user input
@@ -35,7 +36,7 @@ public class Main
         }
         else
         {
-            System.out.println("\nInvalid input. Please type 1 or 2.\n");
+            System.out.println(RED +"\nInvalid input. Please type 1 or 2.\n" + RESET);
         }
 
         long end = System.currentTimeMillis();

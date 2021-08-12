@@ -1,10 +1,12 @@
-# HAL
+<h1 align="center">HAL</h1>
 
 <img align="left" alt="C++" img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/HAL9000_Case.svg/220px-HAL9000_Case.svg.png" height="50">
 
-A small-Assembly-like Interpreter written in Java that can execute many instruction very fast ⚡
+<p align="center">A small-Assembly-like Interpreter written in Java that can execute many instruction very fast ⚡
 
-## Instruction set
+<img align="right" alt="C++" img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/HAL9000_Case.svg/220px-HAL9000_Case.svg.png" height="50">
+
+<h1 align="center">Instruction Set</h1>
 
 - ```START```     : Start program
 - ```STOP```      : Stop program
@@ -25,6 +27,8 @@ A small-Assembly-like Interpreter written in Java that can execute many instruct
 - ```JUMPNEG```   : jump to program adress a, if acc is negative
 - ```JUMPPOS```   : jump to program adress a, if acc is positive
 - ```JUMPNULL```  : jump to program adress a, if acc is 0
+
+
 
 ![](heavy.jpg)  
 (at least on my machine but whatever. Try it yourself!)

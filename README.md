@@ -6,22 +6,23 @@ A small-Assembly-like Interpreter written in Java that can execute many instruct
 
 ## Instruction set
 
-- START
-- STOP
-- ADD
-- SUB
-- MUL
-- DIV
-- OUT 
-- IN
-- LOAD
-- LOADNUM
-- STORE
-- JUMP
-- JUMPNEG
-- JUMPPOS
-- JUMPNULL
-- ADDNUM
-- SUBNUM
-- MULNUM
-- DIVNUM
+- START     : Start program
+- STOP      : Stop program
+- ADD r     : Adds content of register r to the accumulator and saves result into accumulator (a += r)
+- SUB       : Subtracts accumulator with content of register r and saves result into accumulator (a -= r)  
+- MUL       : analog to ADD and SUB 
+- DIV       : analog to ADD and SUB
+- ADDNUM n  : Adds the number n to accumulator (a += n)
+- SUBNUM n  : analog to ADDNUM
+- MULNUM n  : analog to MULNUM
+- DIVNUM n  : analog to DIVUM
+- OUT       : print content of accumulator into input/output-unit 
+- IN        : read the from input/output-unit and write content into accumulator 
+- LOAD r    : load content of register r into accumulator (a = r)
+- LOADNUM n : load specified number n into accumulator (a = n) 
+- STORE r   : save accumulator into register r (r = a)
+- JUMP a    : jump to program adress a
+- JUMPNEG   : jump to program adress a, if acc is negative
+- JUMPPOS   : jump to program adress a, if acc is positive
+- JUMPNULL  : jump to program adress a, if acc is 0
+

@@ -27,4 +27,4 @@ A small-Assembly-like Interpreter written in Java that can execute many instruct
 - ```JUMPNULL```  : jump to program adress a, if acc is 0
 
 ![](heavy.jpg)
-
+(at least on my machine but whatever. Try it yourself!)

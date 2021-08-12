@@ -22,19 +22,20 @@ public class Main
         Interpreter interpreter = new Interpreter();
         interpreter.readFile("add.txt");
         printMenu();
-        Scanner input = new Scanner(System.in); // User input
+        Scanner scanner = new Scanner(System.in);
+        String userinput = scanner.next(); // read user input
 
-        if(input.next().contentEquals("1"))
+        if(userinput.equals("1"))
         {
             interpreter.build();
         }
-        else if(input.next().contentEquals("2"))
+        else if(userinput.equals("2"))
         {
             interpreter.debug();
         }
         else
         {
-            System.out.println("\nInvalid input. Please choose 1 or 2.\n");
+            System.out.println("\nInvalid input. Please type 1 or 2.\n");
         }
 
         long end = System.currentTimeMillis();

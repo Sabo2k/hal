@@ -156,7 +156,7 @@ public class Interpreter
     {
         while(this.status != true)
         {
-            System.out.println("Press s to step");
+            System.out.println("Type s to step");
             Scanner eingabe2 = new Scanner(System.in); // Stepinput
             if(eingabe2.next().equals("s")) // then step
             {

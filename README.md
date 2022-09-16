@@ -27,3 +27,7 @@
 - ```JUMPNEG```   : jump to program adress a, if acc is negative
 - ```JUMPPOS```   : jump to program adress a, if acc is positive
 - ```JUMPNULL```  : jump to program adress a, if acc is 0
+
+<h1 align="center">UML Class Diagram</h1>
+
+<img src="uml-diagram.PNG" width="800" height="400"/>

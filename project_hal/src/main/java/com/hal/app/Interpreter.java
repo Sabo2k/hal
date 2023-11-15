@@ -6,7 +6,7 @@ import java.text.ParseException;
 import java.util.*;
 
 /**
- * The Interpreter processes instructions  
+ * The Interpreter processes instructions 
  */
 public class Interpreter
 {
@@ -60,6 +60,7 @@ public class Interpreter
         this.registers = new double[16];
         this.instructions = new ArrayList<Instruction>();
         this.io_unit = new double[2];
+        this.isRunning = false;
     }
 
     /**
@@ -74,27 +75,29 @@ public class Interpreter
         {
             File file = new File(filePath);
             Scanner scanner = new Scanner(file);
+
             while(scanner.hasNextLine())
             {
                 Instruction instruction = new Instruction();
+
                 instruction.setName(scanner.next());
 
                 if(scanner.hasNextInt())
                 {
-                    instruction.setIntOperand(Integer.parseInt(scanner.next()));
+                    instruction.setIntOperand(scanner.nextInt());
                 }
                 else if(scanner.hasNextDouble())
                 {
-                    instruction.setDoubleOperand(Double.parseDouble(scanner.next()));
+                    instruction.setDoubleOperand(scanner.nextDouble());
                 }
-
                 this.instructions.add(instruction);
             }
             scanner.close();
+
         }
         catch(FileNotFoundException e)
         {
-            System.err.println("File not found: " + filePath);
+            System.err.println("Could not find file: " + filePath + "\nPlease enter a valid file path");
             e.printStackTrace();
         }
     }
@@ -109,11 +112,10 @@ public class Interpreter
         {
             System.out.println("Register " + i + ": " + this.registers[i]);
         }
-        System.out.println(GREEN + "ACC: " + this.accumulator + RESET);
-        System.out.println(CYAN + "PC: " + this.programCounter + RESET);
+        System.out.println("ACC: " + this.accumulator);
+        System.out.println("PC: " + this.programCounter);
         System.out.println("IO 0: " + this.io_unit[0]);
         System.out.println("IO 1: " + this.io_unit[1]);
-        System.out.println("====================================================================");
     }
 
     /**
@@ -124,9 +126,8 @@ public class Interpreter
         isRunning = true;
         while(isRunning)
         {
-            executeInstruction(instructions.get(this.programCounter));
+            executeSingleInstruction(instructions.get(this.programCounter));
         }
-        printComponentInfo();
     }
 
     /**
@@ -139,8 +140,8 @@ public class Interpreter
         isRunning = true;
         while(isRunning)
         {
-            executeInstruction(instructions.get(this.programCounter));
-            System.out.println("CURRENT INSTRUCTION: " + instructions.get(this.programCounter).getName());
+            executeSingleInstruction(instructions.get(this.programCounter));
+            
             System.out.println("Press S to continue:");
 
             Scanner scanner = new Scanner(System.in);
@@ -151,32 +152,17 @@ public class Interpreter
             }
             else
             {
-                System.out.println(RED + "\nInvalid input. Press s to step.\n" + RESET);
+                System.out.println(RED + "\nInvalid input. Please press s to step.\n" + RESET);
             }
         }
     }
 
     /**
-     * executes one instruction
-     * @param instruction instruction-object
+     * increases the programCounter and executes a single instruction 
+     * @param instruction Instruction-Object containing all information about the instruction
      */
-    public void executeInstruction(Instruction instruction)
+    public void executeSingleInstruction(Instruction instruction)
     {
-        this.programCounter++;
-
-        if(instruction.getIntOperand() != 0)
-        {
-            // print current instruction with int
-            System.out.println(YELLOW + "CURRENT INSTRUCTION: " + instruction.getName() + 
-                               " " + instruction.getIntOperand() + RESET); 
-        }
-        else
-        {
-            //  print current instruction with double 
-            System.out.println(YELLOW + "CURRENT INSTRUCTION: " + instruction.getName() + 
-                               " " + instruction.getIntOperand() + RESET); 
-        }
-
         switch(instruction.getName())
         {
             case "START":
@@ -291,6 +277,6 @@ public class Interpreter
                 break;
             }
         }
+        this.programCounter++;
     }
 }
-

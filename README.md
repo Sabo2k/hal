@@ -29,5 +29,3 @@
 - ```JUMPNULL```  : jump to program adress a, if acc is 0
 
 <h1 align="center">UML Class Diagram</h1>
-
-<img src="uml-diagram.PNG" width="800" height="400"/>

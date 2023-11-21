@@ -11,6 +11,7 @@ public class Main
     public static final String RESET = "\u001B[0m";
     public static final String RED = "\u001B[31m";
     public static final String YELLOW = "\u001B[33m";
+    public static final String GREEN = "\u001B[32m";
 
     /**
      * prints a small menu with two modes:
@@ -51,8 +52,9 @@ public class Main
                     interpreter.readFile(filePath);
                     
                     final long start = System.currentTimeMillis(); // start counting time
-                    
+                    System.out.println(YELLOW + "Executing Instructions..." + RESET);
                     interpreter.executeAllInstructions();
+                    System.out.println(GREEN + "Done!" + RESET);
                     interpreter.printComponentInfo();
 
                     long end = System.currentTimeMillis();

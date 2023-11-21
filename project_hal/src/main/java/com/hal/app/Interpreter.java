@@ -5,6 +5,26 @@ import java.io.FileNotFoundException;
 import java.text.ParseException;
 import java.util.*;
 
+import com.hal.app.instructions.AddInstruction;
+import com.hal.app.instructions.AddNumInstruction;
+import com.hal.app.instructions.DivInstruction;
+import com.hal.app.instructions.DivNumInstruction;
+import com.hal.app.instructions.InInstruction;
+import com.hal.app.instructions.JumpInstruction;
+import com.hal.app.instructions.JumpNegInstruction;
+import com.hal.app.instructions.JumpNullInstruction;
+import com.hal.app.instructions.JumpPosInstruction;
+import com.hal.app.instructions.LoadInstruction;
+import com.hal.app.instructions.LoadNumInstruction;
+import com.hal.app.instructions.MulInstruction;
+import com.hal.app.instructions.MulNumInstruction;
+import com.hal.app.instructions.OutInstruction;
+import com.hal.app.instructions.StartInstruction;
+import com.hal.app.instructions.StopInstruction;
+import com.hal.app.instructions.StoreInstruction;
+import com.hal.app.instructions.SubInstruction;
+import com.hal.app.instructions.SubNumInstruction;
+
 /**
  * The Interpreter processes instructions 
  */
@@ -15,9 +35,6 @@ public class Interpreter
      */
     public static final String RESET = "\u001B[0m";
     public static final String RED = "\u001B[31m";
-    public static final String GREEN = "\u001B[32m";
-    public static final String YELLOW = "\u001B[33m";
-    public static final String CYAN = "\u001B[36m";
 
     /**
      * the accumulator stores results from operations such as "ADDNUM" etc.
@@ -36,9 +53,9 @@ public class Interpreter
     public double[] registers;
     
     /**
-     * each Instruktion has a name and 1 or 0 operand(s)
+     * list of all instructions
      */
-    public ArrayList<Instruction> instructions;
+    public List<Instruction> instructions = new ArrayList<>();
     
     /**
      * Input and Output Unit
@@ -46,12 +63,13 @@ public class Interpreter
     public double[] io_unit;
     
     /**
-     * 
+     * TRUE: interpreter is executing instructions 
+     * FALSE: interpreter has no more instructions to execute
      */
     public boolean isRunning;
     
     /**
-     * standard constructor sets everything to default value
+     * sets everything to default values
      */
     public Interpreter()
     {
@@ -78,22 +96,112 @@ public class Interpreter
 
             while(scanner.hasNextLine())
             {
-                Instruction instruction = new Instruction();
+                String instructionName = scanner.next();
 
-                instruction.setName(scanner.next());
-
-                if(scanner.hasNextInt())
+                switch(instructionName)
                 {
-                    instruction.setIntOperand(scanner.nextInt());
+                    case "START":
+                    {
+                        instructions.add(new StartInstruction(this, instructionName));
+                        break;
+                    }
+                    case "STOP":
+                    {
+                        instructions.add(new StopInstruction(this, instructionName));
+                        break;
+                    }
+                    case "IN":
+                    {
+                        instructions.add(new InInstruction(this, scanner.nextInt(), instructionName));
+                        break;
+                    }
+                    case "OUT":
+                    {
+                        instructions.add(new OutInstruction(this, scanner.nextInt(), instructionName));
+                        break;
+                    }
+                    case "LOAD":
+                    {
+                        instructions.add(new LoadInstruction(this, scanner.nextInt(), instructionName));
+                        break;
+                    }
+                    case "LOADNUM":
+                    {
+                        instructions.add(new LoadNumInstruction(this, scanner.nextDouble(), instructionName));
+                        break;
+                    }
+                    case "STORE":
+                    {
+                        instructions.add(new StoreInstruction(this, scanner.nextInt(), instructionName));
+                        break;
+                    }
+                    case "JUMPNEG":
+                    {
+                        instructions.add(new JumpNegInstruction(this, scanner.nextInt(), instructionName));
+                        break;
+                    }
+                    case "JUMPPOS":
+                    {
+                        instructions.add(new JumpPosInstruction(this, scanner.nextInt(), instructionName));
+                        break;
+                    }
+                    case "JUMPNULL":
+                    {
+                        instructions.add(new JumpNullInstruction(this, scanner.nextInt(), instructionName));
+                        break;
+                    }
+                    case "JUMP":
+                    {
+                        instructions.add(new JumpInstruction(this, scanner.nextInt(), instructionName));
+                        break;
+                    }
+                    case "ADD":
+                    {
+                        instructions.add(new AddInstruction(this, scanner.nextInt(), instructionName));
+                        break;
+                    }
+                    case "ADDNUM":
+                    {
+                        instructions.add(new AddNumInstruction(this, scanner.nextDouble(), instructionName));
+                        break;
+                    }
+                    case "SUB":
+                    {
+                        instructions.add(new SubInstruction(this, scanner.nextInt(), instructionName));
+                        break;
+                    }
+                    case "SUBNUM":
+                    {
+                        instructions.add(new SubNumInstruction(this, scanner.nextDouble(), instructionName));
+                        break;
+                    }
+                    case "MUL":
+                    {
+                        instructions.add(new MulInstruction(this, scanner.nextInt(), instructionName));
+                        break;
+                    }
+                    case "MULNUM":
+                    {
+                        instructions.add(new MulNumInstruction(this, scanner.nextDouble(), instructionName));
+                        break;
+                    }
+                    case "DIV":
+                    {
+                        instructions.add(new DivInstruction(this, scanner.nextInt(), instructionName));
+                        break;
+                    }
+                    case "DIVNUM":
+                    {
+                        instructions.add(new DivNumInstruction(this, scanner.nextDouble(), instructionName));
+                        break;
+                    }
+                    default:
+                    {
+                        break;
+                    }
                 }
-                else if(scanner.hasNextDouble())
-                {
-                    instruction.setDoubleOperand(scanner.nextDouble());
-                }
-                this.instructions.add(instruction);
             }
             scanner.close();
-
         }
         catch(FileNotFoundException e)
         {
@@ -124,6 +232,7 @@ public class Interpreter
     public void executeAllInstructions()
     {
         isRunning = true;
+
         while(isRunning)
         {
             executeSingleInstruction(instructions.get(this.programCounter));
@@ -141,18 +250,18 @@ public class Interpreter
         while(isRunning)
         {
             executeSingleInstruction(instructions.get(this.programCounter));
-            
+            System.out.println("CURRENT INSTRUCTION: " + instructions.get(this.programCounter).name);
             System.out.println("Press S to continue:");
 
             Scanner scanner = new Scanner(System.in);
 
-            if(scanner.next().equals("s")) // then step
+            if(scanner.next().equals("S"))
             {
                 this.printComponentInfo(); // print all information
             }
             else
             {
-                System.out.println(RED + "\nInvalid input. Please press s to step.\n" + RESET);
+                System.out.println(RED + "\nInvalid input. Please press S to step.\n" + RESET);
             }
         }
     }
@@ -163,120 +272,7 @@ public class Interpreter
      */
     public void executeSingleInstruction(Instruction instruction)
     {
-        switch(instruction.getName())
-        {
-            case "START":
-            {
-                this.isRunning = true;
-                break;
-            }
-            case "STOP":
-            {
-                this.isRunning = false;
-                break;
-            }
-            case "OUT":
-            {
-                this.io_unit[instruction.getIntOperand()] = this.accumulator;
-                break;
-            }
-            case "IN":
-            {
-                System.out.println("Input IO " + instruction.getIntOperand() + ": ");
-                Scanner scanner = new Scanner(System.in);
-                this.accumulator = scanner.nextDouble();
-                scanner.close();
-                break;
-            }
-            case "LOAD":
-            {
-                this.accumulator = this.registers[instruction.getIntOperand()];
-                break;
-            }
-            case "LOADNUM":
-            {
-                this.accumulator = instruction.getDoubleOperand();
-                break;
-            }
-            case "STORE":
-            {
-                this.registers[instruction.getIntOperand()] = this.accumulator;
-                break;
-            }
-            case "JUMPNEG":
-            {
-                if(this.accumulator < 0.0)
-                {
-                    this.programCounter = instruction.getIntOperand();
-                }
-                break;
-            }
-            case "JUMPPOS":
-            {
-                if(this.accumulator >= 0.0)
-                {
-                    this.programCounter = instruction.getIntOperand();
-                }
-                break;
-            }
-            case "JUMPNULL":
-            {
-                if(this.accumulator == 0.0)
-                {
-                    this.programCounter = instruction.getIntOperand();
-                }
-                break;
-            }
-            case "JUMP":
-            {
-                this.programCounter = instruction.getIntOperand();
-                break;
-            }
-            case "ADD":
-            {
-                this.accumulator += registers[instruction.getIntOperand()];
-                break;
-            }
-            case "ADDNUM":
-            {
-                this.accumulator += instruction.getDoubleOperand();
-                break;
-            }
-            case "SUB":
-            {
-                this.accumulator -= registers[instruction.getIntOperand()];
-                break;
-            }
-            case "MUL":
-            {
-                this.accumulator *= registers[instruction.getIntOperand()];
-                break;
-            }
-            case "DIV":
-            {
-                this.accumulator /= registers[instruction.getIntOperand()];
-                break;
-            }
-            case "MULNUM":
-            {
-                this.accumulator *= instruction.getDoubleOperand();
-                break;
-            }
-            case "DIVNUM":
-            {
-                this.accumulator /= instruction.getDoubleOperand();
-                break;
-            }
-            case "SUBNUM":
-            {
-                this.accumulator -= instruction.getDoubleOperand();
-                break;
-            }
-            default:
-            {
-                break;
-            }
-        }
+        instruction.execute();
         this.programCounter++;
     }
 }

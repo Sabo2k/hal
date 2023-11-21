@@ -2,133 +2,34 @@ package com.hal.app;
 
 /**
  * 
+ * See https://refactoring.guru/design-patterns/command/java/example
  */
-public class Instruction
+public abstract class Instruction
 {
     /**
-     * contains the complete instruction with name and operand
+     * an instruction has a name (e.g. START, ADD, SUB, etc.)
      */
-    private String fullInstruction;
+    public String name;
 
     /**
-     * Each instruction has a name
+     * interpreter-object, the instruction is executed on
      */
-    private String name;
-
-    /**
-     * An instruction can have an integer as operand (e.g. JUMP)
-     */
-    private int i_operand;
-    
-    /**
-     * An instruction can have a double as operand (e.g. LOADNUM)
-     */
-    private double d_operand;
-
-    /**
-     * Standard constructor
-     */
-    public Instruction()
-    {
-        this.fullInstruction = null;
-        this.name = null;
-        this.i_operand = 0;
-        this.d_operand = 0.0;
-    }
-
-    /**
-     * constructor for an instruction with an Integer as operand
-     * @param name
-     * @param i_operand
-     */
-    public Instruction(String fullInstruction, String name, int i_operand)
-    {
-        this.fullInstruction = fullInstruction;
-        this.name = name;
-        this.i_operand = i_operand;
-    }
-
-    /**
-     * constructor for an instruction with a Double as operand
-     * @param name
-     * @param d_operand
-     */
-    public Instruction(String fullInstruction, String name, double d_operand)
-    {
-        this.fullInstruction = fullInstruction;
-        this.name = name;
-        this.d_operand = d_operand;
-    }
+    public Interpreter interpreter;
 
     /**
      * 
-     * @return
+     * @param interpreter interpreter object
+     * @param name name of the instruction
      */
-    public int getIntOperand()
+    public Instruction(Interpreter interpreter, String name)
     {
-        return this.i_operand;
-    }
-
-    /**
-     * 
-     * @return
-     */
-    public double getDoubleOperand()
-    {
-        return this.d_operand;
-    }
-
-    /**
-     * 
-     * @return
-     */
-    public String getName()
-    {
-        return this.name;
-    }
-
-    /**
-     * 
-     * @param name
-     */
-    public void setName(String name)
-    {
+        this.interpreter = interpreter;
         this.name = name;
     }
 
     /**
-     * 
-     * @param i_operand
-     */
-    public void setIntOperand(int i_operand)
-    {
-        this.i_operand = i_operand;
-    }
-
-    /**
-     * 
-     * @param d_operand
-     */
-    public void setDoubleOperand(double d_operand)
-    {
-        this.d_operand = d_operand;
-    }
-
-    /**
-     * 
+     * each instruction has a specific way of execution
      * @return
      */
-    public String getFullInstruction() 
-    {
-        return this.fullInstruction;
-    }
-
-    /**
-     * 
-     * @param full_instruction
-     */
-    public void setFullInstruction(String full_instruction) 
-    {
-        this.fullInstruction = full_instruction;
-    }
+    public abstract boolean execute();
 }

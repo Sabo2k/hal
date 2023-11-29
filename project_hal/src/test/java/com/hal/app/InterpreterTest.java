@@ -2,9 +2,7 @@ package com.hal.app;
 
 import static org.junit.Assert.assertEquals;
 
-import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
-import java.io.PrintStream;
 import java.text.ParseException;
 
 import org.junit.After;
@@ -17,17 +15,18 @@ import org.junit.Test;
 public class InterpreterTest 
 {
     /**
-     * 
+     * interpreter object containing all memory information
      */
     private Interpreter interpreter;
 
     /**
-     * 
+     * file containing various instructions for test purposes
      */
     private String filePath = "/home/sabo/dev/hal/project_hal/src/test.txt";
 
     /**
-     * 
+     * prepares everything for the test case,
+     * called before every test case
      * @throws ParseException
      */
     @Before
@@ -37,7 +36,8 @@ public class InterpreterTest
     }
 
     /**
-     * 
+     * deletes all data created for the test case, 
+     * called after every test case
      */
     @After
     public void tearDown()
@@ -46,7 +46,8 @@ public class InterpreterTest
     }
 
     /**
-     * 
+     * checks, whether the correct amount of  
+     * instructions was read
      * @throws FileNotFoundException
      */
     @Test
@@ -57,18 +58,10 @@ public class InterpreterTest
     }
 
     /**
-     * 
-     */
-    @Test 
-    public void testExecuteSingleInstruction()
-    {
-        
-    }
-
-    /**
+     * executes the instructions of the test-file   
+     * and evaluates its results 
      * @throws ParseException
      * @throws FileNotFoundException
-     * 
      */
     @Test
     public void testExecuteAllInstructions() throws ParseException, FileNotFoundException

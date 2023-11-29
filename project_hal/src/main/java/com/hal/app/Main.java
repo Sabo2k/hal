@@ -21,14 +21,14 @@ public class Main
     public static void printMenu()
     {             
         System.out.println("\n================================= Main Menu ======================================");
-        System.out.print("[1] Normal Mode\n");
+        System.out.println("[1] Normal Mode");
         System.out.println("[2] Debug Mode");
         System.out.println("[3] Exit");
         System.out.println("Your Input: ");
     }
 
     /**
-     * 
+     * prompts the user to choose a menu option
      * @param interpreter
      * @throws ParseException
      */
